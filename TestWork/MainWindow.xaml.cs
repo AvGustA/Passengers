@@ -9,19 +9,19 @@ namespace TestWork
 {
     public partial class MainWindow : Window
     {
-        private const string FileName = "Passengers.json";
-        private ObservableCollection<Passenger> passengers = new ObservableCollection<Passenger>();
+        private const string _fileName = "Passengers.json";
+        private ObservableCollection<Passenger> _passengers = new ObservableCollection<Passenger>();
 
         public MainWindow()
         {
             InitializeComponent();
 
-            if (File.Exists(FileName))
+            if (File.Exists(_fileName))
             {
-                var json = File.ReadAllText(FileName);
-                passengers = JsonSerializer.Deserialize<ObservableCollection<Passenger>>(json);
+                var json = File.ReadAllText(_fileName);
+                _passengers = JsonSerializer.Deserialize<ObservableCollection<Passenger>>(json);
             }
-            dataGrid.ItemsSource = passengers;
+            dataGrid.ItemsSource = _passengers;
         }
 
         private void MyDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
@@ -31,8 +31,8 @@ namespace TestWork
                 var bindingGroup = e.Row.BindingGroup;
                 if (bindingGroup != null && bindingGroup.CommitEdit())
                 {
-                    var json = JsonSerializer.Serialize(passengers);
-                    File.WriteAllText(FileName, json);
+                    var json = JsonSerializer.Serialize(_passengers);
+                    File.WriteAllText(_fileName, json);
                 }
             }
         }
